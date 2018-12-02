@@ -207,14 +207,14 @@ func TestGetServiceClassAndPlans(t *testing.T) {
 						{
 							Name:            "PLAN_DATABASE_URI",
 							Required:        true,
-							DefaultValue:    "someuri",
+							Default:         "someuri",
 							HasDefaultValue: true,
 							Type:            "string",
 						},
 						{
 							Name:            "PLAN_DATABASE_USERNAME",
 							Required:        true,
-							DefaultValue:    "name",
+							Default:         "name",
 							HasDefaultValue: true,
 							Type:            "string",
 						},
@@ -227,7 +227,7 @@ func TestGetServiceClassAndPlans(t *testing.T) {
 						{
 							Name:            "SOME_OTHER",
 							Required:        false,
-							DefaultValue:    "other",
+							Default:         "other",
 							HasDefaultValue: true,
 							Type:            "string",
 						},
@@ -241,7 +241,7 @@ func TestGetServiceClassAndPlans(t *testing.T) {
 						{
 							Name:            "PLAN_DATABASE_USERNAME_2",
 							Required:        true,
-							DefaultValue:    "user2",
+							Default:         "user2",
 							HasDefaultValue: true,
 							Type:            "string",
 						},
