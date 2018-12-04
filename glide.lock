@@ -1,5 +1,5 @@
-hash: 8495b5732f21ca7d7b05e9232d5d9690f87f04f1f7027614f7e0f4a33c0987c0
-updated: 2018-11-09T17:50:10.869167042+05:30
+hash: 97e26fd0a00098d685426b5fc4f83f33a05700978f8949103e16eab82af84caf
+updated: 2018-12-02T14:08:24.738403+01:00
 imports:
 - name: github.com/alexbrainman/sspi
   version: e580b900e9f5657daa5473021296289be6da2661
@@ -119,12 +119,16 @@ imports:
   version: a0d98a5f288019575c6d1f4bb1573fef2d1fcdc4
   subpackages:
   - simplelru
+- name: github.com/hinshun/vt10x
+  version: d55458df857cfff952e4bf72ce1b567c5a4e141c
 - name: github.com/imdario/mergo
   version: 6633656539c1639d9d78127b7d47c622b5d7b6dc
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/json-iterator/go
   version: f2b4162afba35581b6d4a50d3b8f34e33c144682
+- name: github.com/kballard/go-shellquote
+  version: 95032a82bc518f77982ea72343cc1ade730072f0
 - name: github.com/kubernetes-incubator/service-catalog
   version: 9d82b390b96d565e9301fdfe4ac822311e765a3c
   subpackages:
@@ -153,17 +157,21 @@ imports:
 - name: github.com/mattn/go-isatty
   version: 3fb116b820352b7f0c281308a4d6250c22d94e27
 - name: github.com/mattn/go-runewidth
-  version: b20a3daf6a39840c202fd42cc23d53607162b045
+  version: c88d7e5f2e24de48a200a2655ac8a0910be9a0f7
 - name: github.com/matttproud/golang_protobuf_extensions
   version: fc2b8d3a73c4867e51861bbdd5ae3c1f0869dd6a
   subpackages:
   - pbutil
+- name: github.com/mgutz/ansi
+  version: 9520e82c474b0a04dd04f8a40959027271bab992
 - name: github.com/mitchellh/go-wordwrap
   version: ad45545899c7b13c020ea92b2072220eefad42b8
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
   version: 05fbef0ca5da472bbf96c9322b84a53edc03c9fd
+- name: github.com/Netflix/go-expect
+  version: 9d1f4485533ba0665fa4ca2ef6f1210198f7eaae
 - name: github.com/olekukonko/tablewriter
   version: d4647c9c7a84d847478d890b816b7d8b62b0b279
 - name: github.com/onsi/ginkgo
@@ -246,6 +254,8 @@ imports:
   - image/clientset/versioned/scheme
   - image/clientset/versioned/typed/image/v1
   - image/clientset/versioned/typed/image/v1/fake
+  - oauth/clientset/versioned/scheme
+  - oauth/clientset/versioned/typed/oauth/v1
   - project/clientset/versioned
   - project/clientset/versioned/fake
   - project/clientset/versioned/scheme
@@ -379,6 +389,11 @@ imports:
   version: 7b2c5ac9fc04fc5efafb60700713d4fa609b777b
 - name: github.com/spf13/pflag
   version: e57e3eeb33f795204c1ca35f56c44f83227c6e66
+- name: github.com/stretchr/testify
+  version: f35b8ab0b5a2cef36673838d662e249dd9c94686
+  subpackages:
+  - assert
+  - require
 - name: golang.org/x/crypto
   version: 49796115aa4b964c318aad4f3084fdb41e9aa067
   subpackages:
@@ -396,7 +411,6 @@ imports:
   - http2/hpack
   - idna
   - lex/httplex
-  - websocket
 - name: golang.org/x/sys
   version: 95c6576299259db960f6c5b9b69ea52422860fce
   subpackages:
@@ -431,6 +445,11 @@ imports:
   version: f51c12702a4d776e4c1fa9b0fabab841babae631
   subpackages:
   - rate
+- name: gopkg.in/AlecAivazis/survey.v1
+  version: f30c5d1830c892f533140f29a1de89141dc217f5
+  subpackages:
+  - core
+  - terminal
 - name: gopkg.in/inf.v0
   version: 3887ee99ecf07df5b447e9b00d9c0b2adaa9f3e4
 - name: gopkg.in/square/go-jose.v2
@@ -663,7 +682,7 @@ imports:
   - util/jsonpath
   - util/retry
 - name: k8s.io/kube-openapi
-  version: 91cfa479c814065e420cee7ed227db0f63a5854e
+  version: 8a9b82f00b3a86eac24681da3f9fe6c34c01cea2
   subpackages:
   - pkg/util/proto
   - pkg/util/proto/validation
@@ -821,4 +840,10 @@ imports:
   version: db5cfe13f5cc80a4990d98e2e1b0707a4d1a5394
   subpackages:
   - sortorder
-testImports: []
+testImports:
+- name: github.com/kr/pty
+  version: db8e3cd836b82e82e0a9c8edc6896967dd31374f
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
