@@ -2128,7 +2128,7 @@ func (c *Client) GetServiceClass(externalName string) (class *scv1beta1.ClusterS
 	})
 
 	if len(classes.Items) != 1 {
-		return nil, nil
+		return nil, fmt.Errorf("%s: unknown service class", externalName)
 	}
 
 	return &classes.Items[0], err
