@@ -61,7 +61,7 @@ func (o *ServiceCreateOptions) Complete(name string, cmd *cobra.Command, args []
 
 	var class scv1beta1.ClusterServiceClass
 	if o.interactive {
-		classesByCategory, _ := client.GetServiceClassesByCategory()
+		classesByCategory, _ := client.GetClusterServiceClasses()
 		class, o.serviceType = ui.SelectClassInteractively(classesByCategory)
 
 		plans, _ := client.GetMatchingPlans(class)

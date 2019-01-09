@@ -26,12 +26,10 @@ var validators = make(map[string]Validator)
 
 // Retrieve the list of existing service class categories
 func getServiceClassesCategories(categories map[string][]scv1beta1.ClusterServiceClass) (keys []string) {
-	keys = make([]string, len(categories))
+	keys = make([]string, 0, len(categories))
 
-	i := 0
 	for k := range categories {
-		keys[i] = k
-		i++
+		keys = append(keys, k)
 	}
 
 	sort.Strings(keys)
@@ -41,12 +39,10 @@ func getServiceClassesCategories(categories map[string][]scv1beta1.ClusterServic
 
 // GetServicePlanNames returns the service plan names included in the specified map
 func GetServicePlanNames(stringMap map[string]scv1beta1.ClusterServicePlan) (keys []string) {
-	keys = make([]string, len(stringMap))
+	keys = make([]string, 0, len(stringMap))
 
-	i := 0
 	for k := range stringMap {
-		keys[i] = k
-		i++
+		keys = append(keys, k)
 	}
 
 	sort.Strings(keys)
@@ -65,18 +61,27 @@ func getServiceClassMap(classes []scv1beta1.ClusterServiceClass) (classMap map[s
 }
 
 // getServiceClassNames retrieves the keys (service class names) of the specified name-service class mappings
-func getServiceClassNames(stringMap map[string]scv1beta1.ClusterServiceClass) (keys []string) {
-	keys = make([]string, len(stringMap))
+func getServiceClassNames(stringMap map[string]scv1beta1.ClusterServiceClass, filter string) (keys []string) {
+	keys = make([]string, 0, len(stringMap))
 
-	i := 0
-	for k := range stringMap {
-		keys[i] = k
-		i++
+	for k, v := range stringMap {
+		if filter == "" || strings.Contains(strings.ToLower(k), filter) || hasPartialTag(v, filter) {
+			keys = append(keys, k)
+		}
 	}
 
 	sort.Strings(keys)
 
 	return keys
+}
+
+func hasPartialTag(class scv1beta1.ClusterServiceClass, tag string) bool {
+	for _, v := range class.Spec.Tags {
+		if strings.Contains(strings.ToLower(v), tag) {
+			return true
+		}
+	}
+	return false
 }
 
 // handleError handles UI-related errors, in particular useful to gracefully handle ctrl-c interrupts gracefully
@@ -117,16 +122,16 @@ func EnterServiceNameInteractively(defaultValue, promptText string, validateName
 
 // SelectClassInteractively lets the user select target service class from possible options, first filtering by categories then
 // by class name
-func SelectClassInteractively(classesByCategory map[string][]scv1beta1.ClusterServiceClass) (class scv1beta1.ClusterServiceClass, serviceType string) {
-	var category string
+func SelectClassInteractively(classesByCategory []scv1beta1.ClusterServiceClass) (class scv1beta1.ClusterServiceClass, serviceType string) {
+	/*var category string
 	prompt := &survey.Select{
 		Message: "Which kind of service do you wish to create",
 		Options: getServiceClassesCategories(classesByCategory),
 	}
 	err := survey.AskOne(prompt, &category, survey.Required)
-	handleError(err)
+	handleError(err)*/
 
-	classes := getServiceClassMap(classesByCategory[category])
+	classes := getServiceClassMap(classesByCategory)
 
 	// make a new displayClassInfo function available to survey templates to be able to add class information to the display
 	displayClassInfo := "displayClassInfo"
@@ -156,12 +161,15 @@ func SelectClassInteractively(classesByCategory map[string][]scv1beta1.ClusterSe
 	  {{- end}}
 	{{- end}}`
 
-	prompt = &survey.Select{
-		Message: "Which " + category + " service class should we use",
-		Options: getServiceClassNames(classes),
+	prompt := &survey.Select{
+		Message: "Which service class should we use",
+		Options: getServiceClassNames(classes, ""),
+		FilterFn: func(filter string, options []string) (filtered []string) {
+			return getServiceClassNames(classes, filter)
+		},
 	}
 
-	err = survey.AskOne(prompt, &serviceType, survey.Required)
+	err := survey.AskOne(prompt, &serviceType, survey.Required)
 	handleError(err)
 
 	return classes[serviceType], serviceType
